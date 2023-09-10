@@ -1,0 +1,11 @@
+/Users/macmini/Documents/_projects/ssmith/ItemNumberGeneration/ItemNumberGenerationProject/bin/Debug/net7.0/ItemNumberGenerationProject.deps.json
+/Users/macmini/Documents/_projects/ssmith/ItemNumberGeneration/ItemNumberGenerationProject/bin/Debug/net7.0/ItemNumberGenerationProject.dll
+/Users/macmini/Documents/_projects/ssmith/ItemNumberGeneration/ItemNumberGenerationProject/bin/Debug/net7.0/ItemNumberGenerationProject.pdb
+/Users/macmini/Documents/_projects/ssmith/ItemNumberGeneration/ItemNumberGenerationProject/obj/Debug/net7.0/ItemNumberGenerationProject.GeneratedMSBuildEditorConfig.editorconfig
+/Users/macmini/Documents/_projects/ssmith/ItemNumberGeneration/ItemNumberGenerationProject/obj/Debug/net7.0/ItemNumberGenerationProject.AssemblyInfoInputs.cache
+/Users/macmini/Documents/_projects/ssmith/ItemNumberGeneration/ItemNumberGenerationProject/obj/Debug/net7.0/ItemNumberGenerationProject.AssemblyInfo.cs
+/Users/macmini/Documents/_projects/ssmith/ItemNumberGeneration/ItemNumberGenerationProject/obj/Debug/net7.0/ItemNumberGenerationProject.csproj.CoreCompileInputs.cache
+/Users/macmini/Documents/_projects/ssmith/ItemNumberGeneration/ItemNumberGenerationProject/obj/Debug/net7.0/ItemNumberGenerationProject.dll
+/Users/macmini/Documents/_projects/ssmith/ItemNumberGeneration/ItemNumberGenerationProject/obj/Debug/net7.0/refint/ItemNumberGenerationProject.dll
+/Users/macmini/Documents/_projects/ssmith/ItemNumberGeneration/ItemNumberGenerationProject/obj/Debug/net7.0/ItemNumberGenerationProject.pdb
+/Users/macmini/Documents/_projects/ssmith/ItemNumberGeneration/ItemNumberGenerationProject/obj/Debug/net7.0/ref/ItemNumberGenerationProject.dll

@@ -5,21 +5,33 @@ public class ItemNumberGenerator
   private readonly IList<ItemInput> _itemInputs;
   private readonly int _splitIncrement;
   private readonly int _initialVaLue;
-  private int _nextItemBaseValue;
   private readonly IList<ItemOutput> _itemOutputs;
+
+  private int _nextItemBaseValue;
 
   public int SplitIncrement => _splitIncrement;
 
-  public ItemNumberGenerator(IList<ItemInput> itemInputs, int splitIncrement = 0, int initialValue = 0)
+  public ItemNumberGenerator(
+    IList<ItemInput> itemInputs,
+    int splitIncrement = 0,
+    int initialValue = 0,
+    bool isDynamicSplitIncrement = false)
   {
     _itemInputs = itemInputs;
-    _splitIncrement = Math.Max(splitIncrement, GetCalculatedSplitIncrement());
     _initialVaLue = initialValue;
+    _splitIncrement = Math.Max(splitIncrement, GetSplitIncrementForMaxItemsCount());
 
     _itemOutputs = new List<ItemOutput>();
-    _nextItemBaseValue = _initialVaLue;
-    
-    GenerateAllItemNumbers();
+    _nextItemBaseValue = _initialVaLue - _splitIncrement;
+
+    if (isDynamicSplitIncrement)
+    {
+      GenerateAllDynamicItemNumbers();
+    }
+    else
+    {
+      GenerateAllItemNumbers();
+    }
   }
 
   public IList<ItemOutput> GetAllItemOutputs()
@@ -32,16 +44,23 @@ public class ItemNumberGenerator
     return _itemOutputs.Where(i => i.Id == id).ToList();
   }
 
-  private int GetCalculatedSplitIncrement()
+  private int GetSplitIncrementForMaxItemsCount()
   {
     var maxItemsCount = _itemInputs.Max(i => i.ItemsCount);
-    var addend = maxItemsCount % 10 == 0
+    return GetCalculatedSplitIncrement(maxItemsCount);
+  }
+
+  private static int GetCalculatedSplitIncrement(int input)
+  {
+    var addend = input % 10 == 0
       ? 0
       : 1;
-    var result = ((maxItemsCount / 10) + addend) * 10;
+    var result = ((input / 10) + addend) * 10;
 
     return result;
   }
+
+  #region Constant SplitIncrement
 
   private void GenerateAllItemNumbers()
   {
@@ -67,7 +86,40 @@ public class ItemNumberGenerator
     _nextItemBaseValue += itemInput.SplitsCount * _splitIncrement;
   }
 
-  private void AddItemOutput(ItemInput itemInput, int splitIndex, int itemIndex, int itemNumber)
+  #endregion
+
+  #region Dynamic SplitIncrement
+
+  private void GenerateAllDynamicItemNumbers()
+  {
+    foreach (var itemInput in _itemInputs)
+    {
+      GenerateDynamicItemItemNumbers(itemInput);
+    }
+  }
+
+  private void GenerateDynamicItemItemNumbers(ItemInput itemInput)
+  {
+    var splitIncrement = GetCalculatedSplitIncrement(itemInput.ItemsCount);
+
+    for (int splitIndex = 1; splitIndex <= itemInput.SplitsCount; splitIndex++)
+    {
+      for (int itemIndex = 1; itemIndex <= itemInput.ItemsCount; itemIndex++)
+      {
+        var outputIncrement = (splitIndex * splitIncrement) + (itemIndex - 1);
+        var itemNumber = _nextItemBaseValue + outputIncrement;
+
+        AddItemOutput(itemInput, splitIndex, itemIndex, itemNumber);
+      }
+    }
+
+    _nextItemBaseValue += itemInput.SplitsCount * splitIncrement;
+  }
+
+  #endregion
+
+  private void AddItemOutput(ItemInput itemInput,
+    int splitIndex, int itemIndex, int itemNumber)
   {
     var itemOutput = new ItemOutput
     {

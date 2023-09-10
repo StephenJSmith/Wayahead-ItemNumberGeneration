@@ -2,9 +2,11 @@
 using FluentAssertions;
 
 namespace ItemNumberGenerationTests;
-
+ 
 public class ItemNumberGeneratorTests
 {
+  #region SplitIncrement
+
   [Fact]
   public void SplitIncrement_WhenPassedValueAndLessThanCalculated_ThenSetToPassedValue()
   {
@@ -188,6 +190,10 @@ public class ItemNumberGeneratorTests
     actual.Should().Be(expected);
   }
 
+  #endregion
+
+  #region GetAllItemOutputs()
+
   [Fact]
   public void GetAllItemOutputs_NoSplitItems()
   {
@@ -229,7 +235,7 @@ public class ItemNumberGeneratorTests
   }
 
   [Fact]
-  public void GetAllItemOutputs_InitialStartValueAndNoSplitItems()
+  public void GetAllItemOutputs_InitialValueAndNoSplitItems()
   {
     // Arrange
     var testItemInputs = new List<ItemInput>
@@ -310,6 +316,71 @@ public class ItemNumberGeneratorTests
   }
 
   [Fact]
+  public void GetAllItemOutputs_ItemsWithSplitsANDNOSplitIncrementInput_CalculatesSplitIncrementAs10()
+  {
+    // Arrange
+    var testItemInputs = new List<ItemInput>
+      {
+        new ItemInput {Id = "PB131", ItemsCount = 2, SplitsCount = 3 },
+        new ItemInput {Id = "PB132", ItemsCount = 1, SplitsCount = 1 },
+        new ItemInput {Id = "PB133", ItemsCount = 3, SplitsCount = 4 },
+      };
+    var sut = new ItemNumberGenerator(testItemInputs);
+
+    // Act
+    var actual = sut.GetAllItemOutputs();
+
+    // Assert
+
+  }
+
+  [Fact]
+  public void GetAllItemOutputs_ItemsWithSplitsANDNOSplitIncrementInput_CalculatesSplitIncrementAs20()
+  {
+    // Arrange
+    var testItemInputs = new List<ItemInput>
+      {
+        new ItemInput {Id = "PB131", ItemsCount = 2, SplitsCount = 3 },
+        new ItemInput {Id = "PB132", ItemsCount = 1, SplitsCount = 1 },
+        new ItemInput {Id = "PB133", ItemsCount = 11, SplitsCount = 4 },
+      };
+    var sut = new ItemNumberGenerator(testItemInputs);
+
+    // Act
+    var actual = sut.GetAllItemOutputs();
+
+    // Assert
+
+  }
+
+  #endregion
+
+  #region Dynamic SplitIncrement
+
+  [Fact]
+  public void DynamicGetAllItemOutputs_ItemsWithSplitsAndSingleItems()
+  {
+    // Arrange
+    var testItemInputs = new List<ItemInput>
+      {
+        new ItemInput {Id = "PB131", ItemsCount = 1, SplitsCount = 2 },
+        new ItemInput {Id = "PB132", ItemsCount = 11, SplitsCount = 2 },
+        new ItemInput {Id = "PB133", ItemsCount = 2, SplitsCount = 2 },
+      };
+    var sut = new ItemNumberGenerator(testItemInputs, isDynamicSplitIncrement: true);
+
+    // Act
+    var actual = sut.GetAllItemOutputs();
+
+    // Assert
+
+  }
+
+  #endregion
+
+  #region GetItemOutputs()
+
+  [Fact]
   public void GetItemOutputs_MultiplItemsWithSplitsAndItems()
   {
     // Arrange
@@ -331,4 +402,6 @@ public class ItemNumberGeneratorTests
     // Assert
 
   }
+
+  #endregion
 }
